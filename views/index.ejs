@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" href="stylesheets/style.css"/>
+        <link rel="stylesheet" href="stylesheets/font-awesome.css">
+    </head>
+    <body>
+        <form method="post" action="cal" id="formtest">
+            <input id="n1" type="text" name="num1">
+            <input id="n2" type="text" name="num2">
+            <input type="submit" value="gui">
+        </form>
+        <div id="showrs"></div>
+        <a href="go">test</a>
+        <script src="../javascripts/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+               $("form#formtest").submit(function (e) {
+                    e.preventDefault();
+                   console.log($("input[id$='n1']").val());
+                    $.ajax({
+                        url: "/cal",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            a: $("input[id$='n1']").val(),
+                            b: $("input[id$='n2']").val()
+                        },
+                        success: function(json) {
+                            if(json.data === true){
+                                // Show your modal. For example:
+                                $('div#showrs').text(json.data); // Setting result to modal
+                            }else {
+                                // Show error message
+                                $('div#showrs').text("Invalid login.");
+                            }
+                        },
+
+                        error: function() {
+                            // Probably something wrong with the server.
+                            $('div#showrs').text("Server error.");
+                        }
+                    });
+                })
+            })
+        </script>
+    </body>
+</html>
